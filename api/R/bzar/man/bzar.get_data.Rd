@@ -5,12 +5,14 @@
 \title{Get Time Series Data}
 \usage{
 bzar.get_data(
-  station_type = "",
-  station_code = "",
-  data_set = "",
-  from_ts = "",
-  to_ts = "",
-  period_hint = 1
+  station_type,
+  station_code,
+  data_set,
+  from_ts,
+  to_ts,
+  period_hint = 1,
+  username = "",
+  password = ""
 )
 }
 \arguments{
@@ -20,11 +22,21 @@ bzar.get_data(
 
 \item{data_set}{The data set.}
 
-\item{from_ts}{Start (>=) of the interval as string of the form yyyy-MM-dd[T[HH][:mm][:ss][.SSS]][Z], where Z is the timezone (e.g. +0200).}
+\item{from_ts}{Start (>=) of the interval as string of the form 
+yyyy-MM-dd[T[HH][:mm][:ss][.SSS]][Z],
+where Z is the timezone (e.g. +0200).}
 
-\item{to_ts}{End (<) of the interval as string of the form yyyy-MM-dd[T[HH][:mm][:ss][.SSS]][Z], where Z is the timezone (e.g. +0200).}
+\item{to_ts}{End (<) of the interval as string of the 
+form yyyy-MM-dd[T[HH][:mm][:ss][.SSS]][Z], where Z
+is the timezone (e.g. +0200).}
 
-\item{period_hint}{The preferred sample period in seconds (defaults to the smallest available).}
+\item{period_hint}{The preferred sample period in seconds (defaults to
+the smallest available).}
+
+\item{username}{Authenticate the request as this user name (defaults
+to "", meaning do not authenticate)}
+
+\item{password}{Password for authentication (defaults to "")}
 }
 \value{
 A data frame with the requested time series in the half-open interval [from_ts, to_ts).

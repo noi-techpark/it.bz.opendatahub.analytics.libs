@@ -2,6 +2,7 @@
 # data source URLs
 bzar.CONFIG_URL = "https://analytics.opendatahub.bz.it/layers-config.json"
 bzar.BASE_URL   = "https://mobility.api.opendatahub.bz.it/v2"
+bzar.AUTH_URL   = "https://auth.opendatahub.bz.it/auth/realms/noi/protocol/openid-connect/token"
 
 
 # ------------------------------------------------------------------------------
@@ -13,6 +14,7 @@ bzar.BASE_URL   = "https://mobility.api.opendatahub.bz.it/v2"
 #' @return A vector with the station types names.
 #'
 #' @export
+# ------------------------------------------------------------------------------
 bzar.get_station_types = function() {
     data = bzar.get_config()
     return(data[, "name"])
@@ -32,7 +34,7 @@ bzar.get_station_types = function() {
 #'
 #' @export
 # ------------------------------------------------------------------------------
-bzar.get_stations = function(station_type = "") {
+bzar.get_stations = function(station_type) {
     # get the URL path associated to the given station type
     data = bzar.get_config()
     path = ""
@@ -60,6 +62,7 @@ bzar.get_stations = function(station_type = "") {
     return(ret[order(ret$name), ])
 }
 
+
 # ------------------------------------------------------------------------------
 #'
 #' Get Data Sets
@@ -77,7 +80,7 @@ bzar.get_stations = function(station_type = "") {
 #'
 #' @export
 # ------------------------------------------------------------------------------
-bzar.get_data_sets = function(station_type = "", station_code = "") {
+bzar.get_data_sets = function(station_type, station_code) {
     # get the URL path associated to the given station type
     data = bzar.get_config()
     path = ""
@@ -103,7 +106,7 @@ bzar.get_data_sets = function(station_type = "", station_code = "") {
     for (s in 1:length(stations)) {
         name = c(name, stations[s][[1]]$tname)
         if (is.null(stations[s][[1]]$tunit)) {
-            unit = c(unit, "");
+            unit = c(unit, "")
         } else {
             unit = c(unit, stations[s][[1]]$tunit)
         }
@@ -126,19 +129,30 @@ bzar.get_data_sets = function(station_type = "", station_code = "") {
 #'
 #' @param station_code The station code.
 #'
-#' @param data_set The data set.
+#' @param     data_set The data set.
 #'
-#' @param from_ts Start (>=) of the interval as string of the form yyyy-MM-dd[T[HH][:mm][:ss][.SSS]][Z], where Z is the timezone (e.g. +0200).
+#' @param      from_ts Start (>=) of the interval as string of the form 
+#'                     yyyy-MM-dd[T[HH][:mm][:ss][.SSS]][Z],
+#'                     where Z is the timezone (e.g. +0200).
 #'
-#' @param to_ts End (<) of the interval as string of the form yyyy-MM-dd[T[HH][:mm][:ss][.SSS]][Z], where Z is the timezone (e.g. +0200).
+#' @param        to_ts End (<) of the interval as string of the 
+#'                     form yyyy-MM-dd[T[HH][:mm][:ss][.SSS]][Z], where Z
+#'                     is the timezone (e.g. +0200).
 #'
-#' @param period_hint The preferred sample period in seconds (defaults to the smallest available).
+#' @param  period_hint The preferred sample period in seconds (defaults to
+#'                     the smallest available).
+#'
+#' @param     username Authenticate the request as this user name (defaults
+#'                     to "", meaning do not authenticate)
+#'
+#' @param     password Password for authentication (defaults to "")
 #'
 #' @return A data frame with the requested time series in the half-open interval [from_ts, to_ts).
 #'
 #' @export
 # ------------------------------------------------------------------------------
-bzar.get_data = function(station_type = "", station_code = "", data_set = "", from_ts = "", to_ts = "", period_hint = 1) {
+bzar.get_data = function(station_type, station_code, data_set, from_ts, to_ts,
+                         period_hint = 1, username = "", password = "") {
     # get the URL path associated to the given station type
     data = bzar.get_config()
     path = ""
@@ -150,9 +164,28 @@ bzar.get_data = function(station_type = "", station_code = "", data_set = "", fr
     if (path == "") {
         stop("unknown station type - use bzar.get_station_types() to get a list of valid station types")
     }
-    data = httr::GET(paste(path, "/", data_set, "/", from_ts, "/", to_ts,
-        "?limit=-1&distinct=true&select=mvalue,mvalidtime,mperiod&where=and%28scode.eq.%22",
-        station_code , "%22%2Csactive.eq.true%29", sep = ""))
+    auth = FALSE
+    if (username != "") {
+        body = list("grant_type" = "password",
+                    "username" = username,
+                    "password" = password,
+                    "client_id" = "odh-generic-client")
+        auth_response = httr::POST(bzar.AUTH_URL, body = body, encode = "form")
+        if (status_code(auth_response) != 200) {
+            stop(paste("authentication download failed with status = ", status_code(auth_response)))
+        }
+        auth_response = content(auth_response)
+        access_token = auth_response$access_token
+        auth = TRUE
+    }
+    dataurl = paste(path, "/", data_set, "/", from_ts, "/", to_ts,
+                    "?limit=-1&distinct=true&select=mvalue,mvalidtime,mperiod&where=and%28scode.eq.%22",
+                    station_code , "%22%2Csactive.eq.true%29", sep = "")
+    if (auth) {
+        data = httr::GET(dataurl, add_headers(Authorization = paste("bearer ", access_token, sep="")))
+    } else {
+        data = httr::GET(dataurl)
+    }
     if (status_code(data) != 200) {
         stop(paste("download failed with status = ", status_code(data)))
     }

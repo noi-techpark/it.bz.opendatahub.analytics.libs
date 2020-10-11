@@ -4,7 +4,7 @@
 \alias{bzar.get_stations}
 \title{Get Stations}
 \usage{
-bzar.get_stations(station_type = "")
+bzar.get_stations(station_type)
 }
 \arguments{
 \item{station_type}{The station type.}
