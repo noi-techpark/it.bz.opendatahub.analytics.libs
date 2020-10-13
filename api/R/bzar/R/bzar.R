@@ -211,7 +211,7 @@ bzar.get_data = function(station_type, station_code, data_set, from_ts, to_ts,
         }
         time = strptime(time, "%Y-%m-%d %H:%M:%S", tz="UTC")
     }
-    return(data.frame(time = time, value = value))
+    return(data.frame(time = time, value = as.numeric(as.character(value))))
 }
 
 
