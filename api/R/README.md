@@ -62,6 +62,7 @@ data = bzar.get_data("Weather", "T0076", "air_temperature", "2020-05-01T00:00:00
 ```
 
 data is a data frame with columns time and value:
+
 ```
 > data
                     time value
@@ -83,6 +84,10 @@ that can be plotted with:
 ```
 plot(data$time, data$value)
 ```
+
+Some data sets can be fetched only by authenticated users. ```bzar.get_data()``` has optional username and password arguments
+to make authenticated requests.
+
 
 To see what station types (like "Weather") are available, use:
 

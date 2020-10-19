@@ -4,7 +4,7 @@
 \alias{bzar.get_data_sets}
 \title{Get Data Sets}
 \usage{
-bzar.get_data_sets(station_type = "", station_code = "")
+bzar.get_data_sets(station_type, station_code)
 }
 \arguments{
 \item{station_type}{The station type.}
