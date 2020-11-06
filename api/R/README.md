@@ -86,8 +86,12 @@ plot(data$time, data$value)
 ```
 
 Some data sets can be fetched only by authenticated users. ```bzar.get_data()``` has optional username and password arguments
-to make authenticated requests.
+to make authenticated requests. The following line shows the same request again, this time authenticated as user "user" with
+password "password":
 
+```
+data = bzar.get_data("Weather", "T0076", "air_temperature", "2020-05-01T00:00:00+0200", "2020-06-01T00:00:00+0200", 1, "user", "password")
+```
 
 To see what station types (like "Weather") are available, use:
 
