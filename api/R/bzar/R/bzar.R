@@ -1,3 +1,5 @@
+# package info
+bzar.USER_AGENT = paste(package.name, packageVersion(package.name), sep = " ")
 
 # data source URLs
 bzar.CONFIG_URL = "https://analytics.opendatahub.bz.it/layers-config.json"
@@ -47,7 +49,10 @@ bzar.get_stations = function(station_type) {
         stop("unknown station type - use bzar.get_station_types() to get a list of valid station types")
     }
     # download the list of stations for the given station type
-    stations = httr::GET(paste(path, "?limit=-1&distinct=true&where=sactive.eq.true", sep = ""))
+    stations = httr::GET(
+        paste(path, "?limit=-1&distinct=true&where=sactive.eq.true", sep = ""), 
+        user_agent(bzar.USER_AGENT)
+    )
     if (status_code(stations) != 200) {
         stop(paste("download failed with status = ", status_code(stations)))
     }
@@ -93,7 +98,10 @@ bzar.get_data_sets = function(station_type, station_code) {
         stop("unknown station type - use bzar.get_station_types() to get a list of valid station types")
     }
     # download the list of data sets for the given station type and code
-    stations = httr::GET(paste(path, "/*/?limit=-1&distinct=true&where=and%28scode.eq.%22", station_code , "%22%2Csactive.eq.true%29", sep = ""))
+    stations = httr::GET(
+        paste(path, "/*/?limit=-1&distinct=true&where=and%28scode.eq.%22", station_code , "%22%2Csactive.eq.true%29", sep = ""), 
+        user_agent(bzar.USER_AGENT)
+    )
     if (status_code(stations) != 200) {
         stop(paste("download failed with status = ", status_code(stations)))
     }
@@ -182,9 +190,9 @@ bzar.get_data = function(station_type, station_code, data_set, from_ts, to_ts,
                     "?limit=-1&distinct=true&select=mvalue,mvalidtime,mperiod&where=and%28scode.eq.%22",
                     station_code , "%22%2Csactive.eq.true%29", sep = "")
     if (auth) {
-        data = httr::GET(dataurl, add_headers(Authorization = paste("bearer ", access_token, sep="")))
+        data = httr::GET(dataurl, user_agent(bzar.USER_AGENT), add_headers(Authorization = paste("bearer ", access_token, sep="")))
     } else {
-        data = httr::GET(dataurl)
+        data = httr::GET(dataurl, user_agent(bzar.USER_AGENT))
     }
     if (status_code(data) != 200) {
         stop(paste("download failed with status = ", status_code(data)))
