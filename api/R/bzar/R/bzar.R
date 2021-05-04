@@ -1,5 +1,5 @@
 # package info
-bzar.USER_AGENT = paste(package.name, packageVersion(package.name), sep = " ")
+bzar.USER_AGENT = paste("bzar", packageVersion("bzar"), sep = " ")
 
 # data source URLs
 bzar.CONFIG_URL = "https://analytics.opendatahub.bz.it/layers-config.json"
@@ -241,7 +241,7 @@ bzar.get_config = function() {
         for (layer in layer_group$layers) {
             if (layer$format == "integreen") {
                 name = c(name, layer$id)
-                path = c(path, paste(bzar.BASE_URL, "/flat/", layer$stationType, sep = ""))
+                path = c(path, paste(bzar.BASE_URL, "/flat/", paste(layer$stationType, collapse=","), sep = ""))
             }
         }
     }
