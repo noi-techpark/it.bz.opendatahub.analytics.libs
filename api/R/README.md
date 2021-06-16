@@ -116,3 +116,8 @@ Man pages for each function are available in the R help browser by invoking:
 ```
 ??bzar
 ```
+
+## Links of interest
+
+- access other open databases in South Tyrol with MonalisR: https://github.com/mattia6690/MonalisR
+
