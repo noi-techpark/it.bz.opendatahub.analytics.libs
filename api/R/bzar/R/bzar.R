@@ -2,9 +2,9 @@
 bzar.USER_AGENT = paste("bzar", packageVersion("bzar"), sep = " ")
 
 # data source URLs
-bzar.CONFIG_URL = "https://analytics.opendatahub.bz.it/layers-config.json"
-bzar.BASE_URL   = "https://mobility.api.opendatahub.bz.it/v2"
-bzar.AUTH_URL   = "https://auth.opendatahub.bz.it/auth/realms/noi/protocol/openid-connect/token"
+bzar.CONFIG_URL = "https://analytics.opendatahub.com/layers-config.json"
+bzar.BASE_URL   = "https://mobility.api.opendatahub.com/v2"
+bzar.AUTH_URL   = "https://auth.opendatahub.com/auth/realms/noi/protocol/openid-connect/token"
 
 
 # ------------------------------------------------------------------------------
