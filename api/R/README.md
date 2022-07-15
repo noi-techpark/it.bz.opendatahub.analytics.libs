@@ -27,15 +27,16 @@ git clone git@github.com:noi-techpark/it.bz.opendatahub.analytics.libs.git
 cd it.bz.opendatahub.analytics.libs
 ```
 
-Start the R prompt (in the root folder of this project):
+Start the R prompt (switch to the root folder of this library first):
 ```
+cd api/R
 R
 ```
 
 In the R prompt, install the bzar package from the local source:
 
 ```R
-install.packages("api/R/bzar", repos = NULL, type="source")
+install.packages("./bzar", repos = NULL, type="source")
 ```
 
 and load it:
