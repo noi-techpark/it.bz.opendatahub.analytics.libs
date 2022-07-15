@@ -27,7 +27,7 @@ git clone git@github.com:noi-techpark/it.bz.opendatahub.analytics.libs.git
 cd it.bz.opendatahub.analytics.libs
 ```
 
-Start the R prompt:
+Start the R prompt (in the root folder of this project):
 ```
 R
 ```
