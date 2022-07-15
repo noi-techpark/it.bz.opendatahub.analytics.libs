@@ -1,32 +1,42 @@
-# bzar: BZ Analytics for R 
+# bzar: BZ Analytics for R
 
-bzar is an R package that contains 
-a set of functions to access
-[BZ Analytics](https://analytics.opendatahub.bz.it/) from R.
-
+`bzar` is an R package that contains a set of functions to access [BZ
+Analytics](https://analytics.opendatahub.bz.it/) from R.
 
 
 ## Installation
 
 ### Prerequisites
 
-You need an installation of R including the
-package httr from CRAN.
+You need an installation of R including the package `httr` from CRAN.
 
-In Linux (Debian), just install the packages r-base and r-cran-httr.
-In macOS just install the official R package from the
-[R site](https://cran.r-project.org), then open the package installer
-and get httr from CRAN.
+In Linux (Debian), just install the packages `r-base` and `r-cran-httr`:
+```
+apt install r-base r-cran-httr
+```
+
+In macOS just install the official R package from the [R
+site](https://cran.r-project.org), then open the package installer and get
+`httr` from CRAN.
 
 ### Installing the package
 
-Download the bzar directory from this repository and save it locally.
+Clone this repository and change directory:
+```
+git clone git@github.com:noi-techpark/it.bz.opendatahub.analytics.libs.git
+cd it.bz.opendatahub.analytics.libs
+```
+
+Start the R prompt:
+```
+R
+```
 
 In the R prompt, install the bzar package from the local source:
 
 ```
-install.packages("/path/to/bzar", repos = NULL, type="source")
-``` 
+install.packages("api/R/bzar", repos = NULL, type="source")
+```
 
 and load it:
 
@@ -40,7 +50,7 @@ Should you ever want to remove bzar from your R installation, run:
 
 ```
 remove.packages("bzar")
-``` 
+```
 
 ## Usage
 
@@ -108,7 +118,7 @@ bzar.get_stations("Weather")
 Given a station, to get the list of available data sets (like "air_temperature") use:
 
 ```
-bzar.get_data_sets("Weather", "T0076") 
+bzar.get_data_sets("Weather", "T0076")
 ```
 
 Man pages for each function are available in the R help browser by invoking:
