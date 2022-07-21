@@ -186,9 +186,15 @@ bzar.get_data = function(station_type, station_code, data_set, from_ts, to_ts,
         access_token = auth_response$access_token
         auth = TRUE
     }
+    
+    if(stringr::str_detect(data_set, " ")) {
+        data_set = URLencode(data_set, repeated = FALSE)
+    }
+
     dataurl = paste(path, "/", data_set, "/", from_ts, "/", to_ts,
-                    "?limit=-1&distinct=true&select=mvalue,mvalidtime,mperiod&where=and%28scode.eq.%22",
-                    station_code , "%22%2Csactive.eq.true%29", sep = "")
+                "?limit=-1&distinct=true&select=mvalue,mvalidtime,mperiod&where=and%28scode.eq.%22",
+                station_code , "%22%2Csactive.eq.true%29", sep = "")
+    
     if (auth) {
         data = httr::GET(dataurl, user_agent(bzar.USER_AGENT), add_headers(Authorization = paste("bearer ", access_token, sep="")))
     } else {
