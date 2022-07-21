@@ -5,5 +5,5 @@ Version: 1.4
 Author: Chris Mair <chris@1006.org>
 Maintainer: Open Data Hub Team <help@opendatahub.bz.it>
 License: GNU Affero General Public License v3.0
-Depends: httr
+Depends: httr, stringr
 RoxygenNote: 7.1.1
