@@ -2,4 +2,4 @@
 Libraries and tools to access the Open Data Hub
 
 ## Libraries to access the Open Data Hub
-- [bzar](api/R): Library in R to access the Open Data Hub (See https://analytics.opendatahub.bz.it)
+- [bzar](api/R): Library in R to access the Open Data Hub (See https://analytics.opendatahub.com)

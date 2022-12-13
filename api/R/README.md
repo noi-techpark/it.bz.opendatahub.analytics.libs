@@ -1,7 +1,7 @@
 # bzar: BZ Analytics for R
 
 `bzar` is an R package that contains a set of functions to access [BZ
-Analytics](https://analytics.opendatahub.bz.it/) from R.
+Analytics](https://analytics.opendatahub.com/) from R.
 
 
 ## Installation
