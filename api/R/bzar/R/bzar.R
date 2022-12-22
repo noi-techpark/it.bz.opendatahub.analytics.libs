@@ -97,6 +97,11 @@ bzar.get_data_sets = function(station_type, station_code) {
     if (path == "") {
         stop("unknown station type - use bzar.get_station_types() to get a list of valid station types")
     }
+
+     if(stringr::str_detect(station_code, " ")) {
+        station_code = URLencode(station_code, repeated = FALSE)
+    }
+
     # download the list of data sets for the given station type and code
     stations = httr::GET(
         paste(path, "/*/?limit=-1&distinct=true&where=and%28scode.eq.%22", station_code , "%22%2Csactive.eq.true%29", sep = ""), 
@@ -189,6 +194,10 @@ bzar.get_data = function(station_type, station_code, data_set, from_ts, to_ts,
     
     if(stringr::str_detect(data_set, " ")) {
         data_set = URLencode(data_set, repeated = FALSE)
+    }
+
+    if(stringr::str_detect(station_code, " ")) {
+        station_code = URLencode(station_code, repeated = FALSE)
     }
 
     dataurl = paste(path, "/", data_set, "/", from_ts, "/", to_ts,
