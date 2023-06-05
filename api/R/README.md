@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+
+SPDX-License-Identifier: CC0-1.0
+-->
+
 # bzar: BZ Analytics for R
 
 `bzar` is an R package that contains a set of functions to access [BZ
