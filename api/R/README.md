@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
 SPDX-License-Identifier: CC0-1.0
 -->
 
-# bzar: BZ Analytics for R
+# bzar: Bind Ninja And R
 
 `bzar` provides access to Open Data Hub time-series data from within R
 
